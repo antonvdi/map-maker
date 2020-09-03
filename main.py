@@ -26,38 +26,29 @@ red 	= (255, 0, 0)
 class World:
 	def __init__(self):
 		#initialize the world/map-instance
-		self.chart = [["water" for y in range(int(height/resolution))] for x in range(int(width/resolution))]
+		self.chart = [["water" for y in range(int(height/resolution+1))] for x in range(int(width/resolution+1))]
 
 	def update(self):
 		#loop through the map and update the colors
 		for x in range(0,len(self.chart)):
 			for y in range(0,len(self.chart[x])):
-				if self.chart[x][y] == "water":
-					screen.blit(water, (x*resolution, y*resolution))
-				elif self.chart[x][y] == "land":
+				screen.blit(water, (x*resolution, y*resolution))
+				
+				if self.chart[x][y] == "land":
 					#find out which tile to use by looking at the number of beaches
 					beaches = 0
-					try:
-						if self.chart[x-1][y] == "water":
-							beaches += 1
-					except IndexError: 
-						pass
-					try:
-						if self.chart[x+1][y] == "water":
-							beaches += 1
-					except IndexError: 
-						pass
-					try:
-						if self.chart[x][y-1] == "water":
-							beaches += 1
-					except IndexError: 
-						pass
-					try:
-						if self.chart[x][y+1] == "water":
-							beaches += 1
-					except IndexError: 
-						pass
+					if self.chart[x-1][y] == "water":
+						beaches += 1
 
+					if self.chart[x+1][y] == "water":
+						beaches += 1
+
+					if self.chart[x][y-1] == "water":
+						beaches += 1
+
+					if self.chart[x][y+1] == "water":
+						beaches += 1
+					
 					#find out how to rotate the tile and print it on the screen
 					if beaches == 0:
 						#center
@@ -76,19 +67,19 @@ class World:
 
 					elif beaches == 2:
 						#corners
-						if self.chart[x-1][y] == "water" and self.chart[x][y-1] == "water":
+						if (self.chart[x-1][y] == "water") and (self.chart[x][y-1] == "water"):
 							screen.blit(land_corner, (x*resolution, y*resolution))
-						elif self.chart[x][y-1] == "water" and self.chart[x+1][y] == "water":
-							screen.blit(rot_center(land_corner, 90), (x*resolution, y*resolution))
-						elif self.chart[x+1][y] == "water" and self.chart[x][y+1] == "water":
+						elif (self.chart[x][y-1] == "water") and (self.chart[x+1][y] == "water"):
+							screen.blit(rot_center(land_corner, -90), (x*resolution, y*resolution))
+						elif (self.chart[x+1][y] == "water") and (self.chart[x][y+1] == "water"):
 							screen.blit(rot_center(land_corner, 180), (x*resolution, y*resolution))
-						elif self.chart[x-1][y] == "water" and self.chart[x][y+1] == "water":
-							screen.blit(rot_center(land_corner, 270), (x*resolution, y*resolution))
-						#bridges
-						elif self.chart[x-1][y] == "water" and self.chart[x+1][y] == "water":
-							screen.blit(land_corner, (x*resolution, y*resolution))
-						elif self.chart[x][y-1] == "water" and self.chart[x][y+1] == "water":
+						elif (self.chart[x-1][y] == "water") and (self.chart[x][y+1] == "water"):
 							screen.blit(rot_center(land_corner, 90), (x*resolution, y*resolution))
+						#bridges
+						elif (self.chart[x-1][y] == "water") and (self.chart[x+1][y] == "water"):
+							screen.blit(land_bridge, (x*resolution, y*resolution))
+						elif (self.chart[x][y-1] == "water") and (self.chart[x][y+1] == "water"):
+							screen.blit(rot_center(land_bridge, 90), (x*resolution, y*resolution))
 
 					elif beaches == 3:
 						if self.chart[x][y+1] == "land":
@@ -107,6 +98,10 @@ class World:
 		self.chart[int(pos_x/resolution)][int(pos_y/resolution)] = "land"
 		return
 
+	def rightClick(self, pos_x, pos_y):
+		self.chart[int(pos_x/resolution)][int(pos_y/resolution)] = "water"
+		return
+
 def main():
 	done = False
 	#create the world/map-instance
@@ -120,8 +115,11 @@ def main():
 				done = True
 			#handle mos click pos
 			if event.type == pygame.MOUSEBUTTONUP:
-			   pos_x, pos_y = pygame.mouse.get_pos()
-			   chartInstance.click(pos_x, pos_y)
+				pos_x, pos_y = pygame.mouse.get_pos()
+				if event.button == 1:
+					chartInstance.click(pos_x, pos_y)
+				elif event.button == 3:
+					chartInstance.rightClick(pos_x, pos_y)
 
 		chartInstance.update()
 		pygame.display.update()
