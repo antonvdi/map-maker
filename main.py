@@ -18,9 +18,8 @@ class World:
 	def render(self):
 		for x in range(0,len(self.chart)):
 			for y in range(0,len(self.chart[x])):
-				if self.chart[x][y] == "water":
-					screen.blit(image_dict["water"], (x*resolution, y*resolution))
-				elif self.chart[x][y] != "water":
+				screen.blit(image_dict["water"], (x*resolution, y*resolution))
+				if self.chart[x][y] != "water":
 					#find out which tile to use by looking at the number of beaches
 					beaches = 0
 					if self.chart[x-1][y] == "water":
