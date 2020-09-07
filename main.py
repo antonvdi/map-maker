@@ -86,7 +86,9 @@ class World:
 	def desertClick(self):
 		if self.current == "land":
 			self.current = "desert"
-		else:
+		elif self.current == "desert":
+			self.current = "snow"
+		elif self.current == "snow":
 			self.current = "land"
 
 def main():
@@ -135,66 +137,3 @@ def load_images(path_to_directory):
 
 image_dict = load_images('sprites')
 main()
-
-'''
-for x in range(0,len(self.chart)):
-			for y in range(0,len(self.chart[x])):
-				screen.blit(image_dict["water"], (x*resolution, y*resolution))
-
-				if self.chart[x][y] == self.current:
-					#find out which tile to use by looking at the number of beaches
-					beaches = 0
-					if self.chart[x-1][y] == "water":
-						beaches += 1
-					if self.chart[x+1][y] == "water":
-						beaches += 1
-					if self.chart[x][y-1] == "water":
-						beaches += 1
-					if self.chart[x][y+1] == "water":
-						beaches += 1
-					
-					#find out how to rotate the tile and print it on the screen
-					if beaches == 0:
-						#center
-						screen.blit(image_dict["%s_center" % self.current], (x*resolution, y*resolution))
-
-					elif beaches == 1:
-						#sides
-						if self.chart[x-1][y] == "water":
-							screen.blit(image_dict["%s_side" % self.current], (x*resolution, y*resolution))
-						elif self.chart[x+1][y] == "water":
-							screen.blit(rot_center(image_dict["%s_side" % self.current], 180), (x*resolution, y*resolution))
-						elif self.chart[x][y-1] == "water":
-							screen.blit(rot_center(image_dict["%s_side" % self.current], -90), (x*resolution, y*resolution))
-						elif self.chart[x][y+1] == "water":
-							screen.blit(rot_center(image_dict["%s_side" % self.current], 90), (x*resolution, y*resolution))
-
-					elif beaches == 2:
-						#corners
-						if (self.chart[x-1][y] == "water") and (self.chart[x][y-1] == "water"):
-							screen.blit(image_dict["%s_corner" % self.current], (x*resolution, y*resolution))
-						elif (self.chart[x][y-1] == "water") and (self.chart[x+1][y] == "water"):
-							screen.blit(rot_center(image_dict["%s_corner" % self.current], -90), (x*resolution, y*resolution))
-						elif (self.chart[x+1][y] == "water") and (self.chart[x][y+1] == "water"):
-							screen.blit(rot_center(image_dict["%s_corner" % self.current], 180), (x*resolution, y*resolution))
-						elif (self.chart[x-1][y] == "water") and (self.chart[x][y+1] == "water"):
-							screen.blit(rot_center(image_dict["%s_corner" % self.current], 90), (x*resolution, y*resolution))
-						#bridges
-						elif (self.chart[x-1][y] == "water") and (self.chart[x+1][y] == "water"):
-							screen.blit(image_dict["%s_bridge" % self.current], (x*resolution, y*resolution))
-						elif (self.chart[x][y-1] == "water") and (self.chart[x][y+1] == "water"):
-							screen.blit(rot_center(image_dict["%s_bridge" % self.current], 90), (x*resolution, y*resolution))
-
-					elif beaches == 3:
-						if self.chart[x][y+1] == self.current:
-							screen.blit(image_dict["%s_peninsula" % self.current], (x*resolution, y*resolution))
-						elif self.chart[x+1][y] == self.current:
-							screen.blit(rot_center(image_dict["%s_peninsula" % self.current], 90), (x*resolution, y*resolution))
-						elif self.chart[x][y-1] == self.current:
-							screen.blit(rot_center(image_dict["%s_peninsula" % self.current], 180), (x*resolution, y*resolution))
-						elif self.chart[x-1][y] == self.current:
-							screen.blit(rot_center(image_dict["%s_peninsula" % self.current], 270), (x*resolution, y*resolution))
-					elif beaches == 4:
-						#islands
-						screen.blit(image_dict["%s_island" % self.current], (x*resolution, y*resolution))
-						'''
