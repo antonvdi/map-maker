@@ -76,6 +76,11 @@ class World:
 						#islands
 						screen.blit(image_dict["%s_island" % self.chart[x][y]], (x*resolution-20, y*resolution-20))
 
+					if self.chart[x-1][y] == "water":
+						screen.blit(image_dict["%s_side" % self.chart[x][y]], (x*resolution-20, y*resolution-20))
+						if self.chart[x+1][y] == "water":
+							if self.chart[x]
+
 
 	def click(self, pos_x, pos_y):
 		self.chart[int(pos_x/resolution)][int(pos_y/resolution)] = self.current
