@@ -10,6 +10,7 @@ width 		= 1280
 height 		= 720
 resolution	= 40
 screen 		= pygame.display.set_mode((width,height))
+pygame.display.set_caption('Map Maker v. Alpha')
 
 class World:
 	def __init__(self):
@@ -113,6 +114,7 @@ class World:
 			self.current = "snow"
 		elif self.current == "snow":
 			self.current = "land"
+
 	def noise(self, scale, octaves, persistence, lacunarity):
 		self.noisechart = [[0 for y in range(int(height/resolution+1))] for x in range(int(width/resolution+1))]
 		for x in range(0,len(self.chart)-1):
@@ -126,7 +128,7 @@ class World:
 														repeaty = int(height/resolution+1),
 														base = randint(0,100))
 				if self.noisechart[x][y] > 0.08:
-					self.chart[x][y] = "land"
+					self.chart[x][y] = self.current
 
 def main():
 	done = False
@@ -154,7 +156,7 @@ def main():
 				if event.key == pygame.K_SPACE:
 					chartInstance.desertClick()
 				if event.key == pygame.K_p:
-					chartInstance.noise(100, 6, 0.5, 2.0)
+					chartInstance.noise(25, 12, 3, 4)
 
 		#render map and update screen
 		chartInstance.render()
