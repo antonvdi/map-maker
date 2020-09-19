@@ -13,14 +13,15 @@ screen 		= pygame.display.set_mode((width,height))
 
 class World:
 	def __init__(self):
-		#initialize the world/map-instance
+		#initialize the world/map-instance. The chart is 1 tile bigger than what is visible, to avoid IndexErrors when rendering.
 		self.chart = [["water" for y in range(int(height/resolution+1))] for x in range(int(width/resolution+1))]
 		self.current = "land"
 
 	def render(self):
 		#iterate through the map
-		for x in range(0,len(self.chart)):
-			for y in range(0,len(self.chart[x])):
+		for x in range(0,len(self.chart)-1):
+			for y in range(0,len(self.chart[x])-1):
+				#make the tile water per default. 
 				screen.blit(image_dict["water"], (x*resolution, y*resolution))
 				if self.chart[x][y] != "water":
 					#find out which tile to use by looking at the number of beaches
@@ -114,8 +115,8 @@ class World:
 			self.current = "land"
 	def noise(self, scale, octaves, persistence, lacunarity):
 		self.noisechart = [[0 for y in range(int(height/resolution+1))] for x in range(int(width/resolution+1))]
-		for x in range(0,len(self.chart)):
-			for y in range(0,len(self.chart[x])):
+		for x in range(0,len(self.chart)-1):
+			for y in range(0,len(self.chart[x])-1):
 				self.noisechart[x][y] = noise.pnoise2(	x/scale,
 														y/scale,
 														octaves = octaves,
