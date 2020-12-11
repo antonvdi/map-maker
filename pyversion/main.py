@@ -75,6 +75,24 @@ class World:
 					elif beaches == 4:
 						#islands
 						screen.blit(image_dict["%s_island" % self.chart[x][y]], (x*resolution-20, y*resolution-20))
+					#trying something new
+					if self.chart[x-1][y] == "water":
+						screen.blit(image_dict["%s_side" % self.chart[x][y]], (x*resolution-20, y*resolution-20))
+						if self.chart[x+1][y] == "water":
+							screen.blit(image_dict["%s_bridge" % self.chart[x][y]], (x*resolution-20, y*resolution-20))
+							if self.chart[x][y-1] == "water":
+								screen.blit(image_dict["%s_peninsula" % self.chart[x][y]], (x*resolution-20, y*resolution-20))
+						elif self.chart[x][y-1] == "water":
+							screen.blit(image_dict["%s_corner" % self.chart[x][y]], (x*resolution-20, y*resolution-20))
+							if self.chart[x][y+1] == "water":
+								screen.blit(rot_center(image_dict["%s_peninsula" % self.chart[x][y]], 90), (x*resolution-20, y*resolution-20))
+						elif self.chart[x][y+1] == "water":
+							screen.blit(rot_center(image_dict["%s_corner" % self.chart[x][y]], 90), (x*resolution-20, y*resolution-20))
+							if self.chart[x][]
+
+
+
+
 
 
 	def click(self, pos_x, pos_y):
